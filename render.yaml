@@ -1,14 +1,43 @@
 services:
   - type: web
-    name: telegram-education-bot
+    name: bot4stage
     runtime: python
-    repo: https://github.com/yourusername/your-repo-name
+    repo: https://github.com/abbasghazal/bot4stage
     branch: main
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: python web_server.py
+    startCommand: python -c "
+import threading
+import asyncio
+import os
+from web_server import run_web_server
+
+def start_web():
+    run_web_server()
+
+def start_bot():
+    asyncio.run(run_bot())
+
+def run_bot():
+    import main
+    await main.main()
+
+threading.Thread(target=start_web, daemon=True).start()
+start_bot()
+"
     disk:
       name: telegram-bot-data
       mountPath: /opt/render/data
       sizeGB: 1
+    envVars:
+      - key: API_ID
+        value: your_api_id
+      - key: API_HASH
+        value: your_api_hash
+      - key: BOT_TOKEN
+        value: your_bot_token
+      - key: DEVELOPER_ID
+        value: 6848908141
+      - key: WEBAPP_URL
+        value: https://bot4stage.onrender.com
     autoDeploy: true
