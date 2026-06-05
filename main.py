@@ -2254,34 +2254,15 @@ async def schedule_physics_info():
 
 # ========== تشغيل البوت ========== #
 async def main():
-    try:
-        start_web_server()
-        # بدء اتصال البوت
-        print("⏳ جاري بدء اتصال البوت...")
-        await client.start(bot_token=BOT_TOKEN)
-        print("✅ البوت متصل بنجاح!")
-        await configure_web_app_menu()
-
-        # تهيئة قاعدة البيانات (آمنة إذا كانت مُهيّأة مسبقًا)
-        try:
-            db.create_files()
-            db.insert_default_data()
-        except Exception:
-            pass
-
-        # تهيئة جلسة المستخدم للبحث (اختياري)
-        await initialize_user_session()
-        
-        # بدء جدولة المعلومات الفيزيائية اليومية
-        asyncio.create_task(schedule_physics_info())
-        print("✅ تم تفعيل جدولة المعلومات الفيزيائية")
-
-        print("🟢 البوت جاهز ويستقبل الرسائل...")
-        await client.run_until_disconnected()
-    except Exception as e:
-        print(f"❌ خطأ في تشغيل البوت: {e}")
-        import traceback
-        traceback.print_exc()
+   async def main():
+    start_web_server()  # أو تشغيل خادم الويب بطريقة أخرى
+    await client.start(bot_token=BOT_TOKEN)
+    print("✅ البوت متصل بنجاح!")
+    await configure_web_app_menu()
+    await initialize_user_session()
+    asyncio.create_task(schedule_physics_info())
+    print("🟢 البوت جاهز ويستقبل الرسائل...")
+    await client.run_until_disconnected()
 
 if __name__ == '__main__':
     try:
