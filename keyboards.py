@@ -7,32 +7,37 @@ from config import DEVELOPER_ID, WEBAPP_URL, WEBAPP_URL_VALID
 class Keyboards:
     @staticmethod
     def main_menu(user_id, stage=4):
-        """Main menu for specific stage with new button arrangement"""
+        """Main menu for specific stage with Web App button"""
         stage_name = ['أولى', 'ثانية', 'ثالثة', 'رابعة'][stage-1]
         
-        buttons = [
+        buttons = []
+        
+        # ✅ إضافة زر فتح التطبيق (Web App) - سيكون ظاهراً دائماً
+        if WEBAPP_URL_VALID:
+            buttons.append([types.KeyboardButtonWebView("🌐 فتح التطبيق", f"{WEBAPP_URL}/app")])
+        
+        # الأزرار الأساسية
+        buttons.extend([
             [Button.inline("📚 المواد الدراسية", f'stage_{stage}:subjects'),
              Button.inline("📖 الشروحات", f'stage_{stage}:explanations')],
             [Button.inline("🔬 المختبر", f'stage_{stage}:lab')],
             [Button.inline("✍️ الامتحانات", f'stage_{stage}:exams'),
              Button.inline("🔍 كلمة البحث", f'stage_{stage}:search')],
-            [Button.inline("🤖 الذكاء الاصطناعي", f'stage_{stage}:ai'),
-             ],
-            
-        ]
-
-        if WEBAPP_URL_VALID:
-            buttons.insert(0, [types.KeyboardButtonWebView("🌐 Open", f"{WEBAPP_URL}/app")])
+            [Button.inline("🤖 الذكاء الاصطناعي", f'stage_{stage}:ai')],
+        ])
         
+        # قسم خاص بالمرحلة الرابعة
         if stage == 4:
             buttons.append([Button.inline("🎓 قسم خاص بالرابعة", f'stage_{stage}:research')])
         
+        # أزرار الدعم والمعلومات
         buttons.extend([
             [Button.inline("📬 تواصل مع الدعم", 'support:contact'),
-            Button.inline("⚛️ معلومة فيزيائية", f'stage_{stage}:physics_info')],
+             Button.inline("⚛️ معلومة فيزيائية", f'stage_{stage}:physics_info')],
             [Button.url("👨‍💼 DevloPeR", "https://t.me/shahm41")]
         ])
         
+        # زر إدارة الأدمن (للمطور فقط)
         if user_id == DEVELOPER_ID:
             buttons.append([Button.inline("🔐 إدارة الأدمن", 'admin:manage')])
             
