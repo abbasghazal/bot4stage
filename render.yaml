@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: telegram-education-bot
+    runtime: python
+    repo: https://github.com/yourusername/your-repo-name
+    branch: main
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    disk:
+      name: telegram-bot-data
+      mountPath: /opt/render/data
+      sizeGB: 1
+    autoDeploy: true
