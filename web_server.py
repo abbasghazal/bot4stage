@@ -433,3 +433,15 @@ def start_web_server():
     thread = threading.Thread(target=run_web_server, daemon=True)
     thread.start()
     print(f"🌐 خادم الويب شغال على منفذ {os.environ.get('PORT', 10000)}")
+# في نهاية web_server.py، أضف:
+if __name__ == "__main__":
+    import threading
+    import asyncio
+    
+    # تشغيل الخادم في خيط
+    thread = threading.Thread(target=run_web_server, daemon=True)
+    thread.start()
+    
+    # تشغيل البوت
+    import main
+    asyncio.run(main.main())
