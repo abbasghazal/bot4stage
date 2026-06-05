@@ -6,7 +6,7 @@ services:
     branch: main
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: python -c "import threading; from web_server import run_web_server; threading.Thread(target=run_web_server, daemon=True).start(); import main; main.main()"
+    startCommand: python web_server.py
     disk:
       name: telegram-bot-data
       mountPath: /opt/render/data
